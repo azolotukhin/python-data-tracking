@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+package analytics_schema;
+
+
+enum TableEngine {
+    MERGE_TREE_TABLE_ENGINE = 0;
+}
+
+
+message TableMeta {
+
+    string NAME = 1;
+    TableEngine ENGINE = 2;
+    string PARTITION_BY_FIELD = 3;
+    string PARTITION_BY_FUNCTION = 4;
+    string SAMPLE_BY_FIELD = 5;
+    repeated string ORDER_BY_FIELDS = 6;
+    string PRIMARY_KEY = 7;
+
+    bool DISABLE_DISTRIBUTED = 201;
+    bool DISABLE_REPLICATED = 202;
+    bool DISABLE_SAMPLED = 203;
+}
+
+
+extend google.protobuf.MessageOptions {
+    TableMeta table_meta = 10001;
+}
+
+
+extend google.protobuf.FieldOptions {
+    TableMeta field_table_meta = 10001;
+}

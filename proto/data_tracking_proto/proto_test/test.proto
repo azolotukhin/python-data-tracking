@@ -1,0 +1,13 @@
+syntax = "proto3";
+package proto_test;
+
+import "data_tracking_proto/options.proto";
+
+
+message TestMessage {
+    option (analytics_schema.table_meta) = {
+        NAME: "Test"
+    };
+
+    string test = 1;
+}
