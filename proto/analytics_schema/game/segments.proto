@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package analytics_schema.game;
+
+message Segments {
+    int32 app_minor_version = 2; // Минорная версия приложения
+    string app_version = 3; // String, Версия приложения
+    string campaign = 4; // String, Рекламная кампания
+    string country = 6; // String, Страна игрока на момент записи строки в таблицу
+    string create_country = 7; // String, Страна игрока на момент инсталла
+    string create_datetime = 8; // DateTime, Время и дата инсталла
+    string create_env = 9; // String, Среда, в которой начата работа с приложением
+    string create_web_publisher = 10; // String, Так и не поняли необходимости в этом
+    string env = 12; // String, Среда, в которой работает игрок
+    bool is_debug = 17; // Int8 DEFAULT -1, Дебаг
+    string server_app_version = 23; // String, Версия приложения
+    int32 session_number = 24; // Int32 DEFAULT CAST(-1 AS Int32), Порядковый номер сессии игрока за всё время
+    int32 sessions_per_day = 25; // Int32 DEFAULT CAST(-1 AS Int32), Порядковый номер сессии игрока в день записи строчки в таблицу
+    float spent_usd = 26; // Float32 DEFAULT CAST(-1 AS Float32), Суммарное количество $, которое игрок внёс за всё своё время игры
+    string web_publisher = 29; // String, Название сайта, на котором размещена игра
+    string create_build_name = 30; // String, Дополнение к столбцу PS_env
+    string update_build_name = 31; // String, Дополнение к столбцу PS_env
+
+}

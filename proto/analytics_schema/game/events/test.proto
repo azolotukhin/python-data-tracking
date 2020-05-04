@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package analytics_schema.game.events.test;
+
+import "analytics_schema/options.proto";
+import "analytics_schema/game/segments.proto";
+
+
+message NestedMessage {
+    string nested_field = 1;
+}
+
+
+message TestMessage {
+    option (analytics_schema.table_meta) = {
+        NAME: "Test"
+    };
+    option (analytics_schema.table_meta).ReplicatedMergeTree = {
+    };
+
+    analytics_schema.UUID4Field uuid = 1; // unique event id
+    analytics_schema.DateField date = 2; // date of event, used for PARTITION_BY
+    analytics_schema.DateTimeField datetime = 3;  // datetime of event
+    string player_id = 4; // player id (primary key)
+    string client_ip = 5; // client remote api
+    string source_type = 6; // source of event (prod, dev)
+    Segments PS = 7; // player segments
+
+    string test = 8;
+    NestedMessage nested_message = 9;
+
+}

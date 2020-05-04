@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+package analytics_schema;
+
+
+message URL {
+    string URL = 1;
+    string Format = 2;
+}
+
+
+message MergeTree {
+    string PARTITION_BY = 1;
+    string ORDER_BY = 2;
+    string PRIMARY_KEY = 3;
+    string SAMPLE_BY = 4;
+}
+
+
+message ReplicatedMergeTree {
+    string PARTITION_BY = 1;
+    string ORDER_BY = 2;
+    string PRIMARY_KEY = 3;
+    string SAMPLE_BY = 4;
+}
+
+
+message TableMeta {
+    string NAME = 1001;
+    oneof ENGINE  {
+        MergeTree MergeTree = 1002;
+        ReplicatedMergeTree ReplicatedMergeTree = 1003;
+        URL URL = 1004;
+    }
+
+    bool DISABLE_DISTRIBUTED = 2005;
+}
+
+
+extend google.protobuf.MessageOptions {
+    TableMeta table_meta = 10001;
+}
+
+
+extend google.protobuf.FieldOptions {
+    TableMeta field_table_meta = 10001;
+}
+
+
+message DateField {
+    uint32 year = 1;
+    uint32 month = 2;
+    uint32 day = 3;
+}
+
+message DateTimeField {
+    uint32 year = 1;
+    uint32 month = 2;
+    uint32 day = 3;
+
+    uint32 hour = 4;
+    uint32 minute = 5;
+    uint32 seconds = 6;
+}
+
+message UUID4Field {
+    string uuid4 = 1;
+
+}

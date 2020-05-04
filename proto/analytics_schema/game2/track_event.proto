@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package analytics_schema.game2;
+
+import "analytics_schema/options.proto";
+import "analytics_schema/game2/events/test.proto";
+
+
+message TrackEvent {
+    oneof event  {
+        game2.events.test.TestMessage2 Test = 1;
+    }
+}

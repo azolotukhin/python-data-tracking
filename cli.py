@@ -1,13 +1,7 @@
 import click
-from pathlib import Path
-from proto_builder import builder
-
-
-CURRENT_DIR = Path(__file__).resolve().parent
-
-PROTO_DIR = CURRENT_DIR.joinpath('proto')
-PACKAGE_DIR = CURRENT_DIR.joinpath('data_tracking_proto')
-MYPY_EXCLUDE = ['/proto/options.proto']
+from proto_builder.cli import cli as proto_builder_cli
+from collector.cli import cli as collector_cli
+from schema_migration.cli import cli as schema_migration_cli
 
 
 @click.group()
@@ -15,14 +9,9 @@ def cli():
     pass
 
 
-@cli.command('build_proto')
-def build_proto():
-    builder.proto_codegen(
-        proto_dir=PROTO_DIR,
-        python_out=CURRENT_DIR,
-        package_dir=PACKAGE_DIR,
-        my_py_exclude=MYPY_EXCLUDE
-    )
+cli.add_command(proto_builder_cli, name='proto_builder')
+cli.add_command(collector_cli, name='collector_cli')
+cli.add_command(schema_migration_cli, name='schema_migration')
 
 
 if __name__ == '__main__':
