@@ -8,7 +8,7 @@
 - Запускает коллектор
 
 ### Print create tables query (python cli.py schema_migration create_tables)
-- Запускает коллектор
+- Печатает запросы для создания таблиц в БД
 
 
 #Schema (path: /query)
