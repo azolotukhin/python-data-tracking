@@ -2,13 +2,15 @@ syntax = "proto3";
 
 package analytics_schema.game;
 
+import "analytics_schema/options.proto";
+
 message Segments {
     int32 app_minor_version = 2; // Минорная версия приложения
     string app_version = 3; // String, Версия приложения
     string campaign = 4; // String, Рекламная кампания
     string country = 6; // String, Страна игрока на момент записи строки в таблицу
     string create_country = 7; // String, Страна игрока на момент инсталла
-    string create_datetime = 8; // DateTime, Время и дата инсталла
+    DateTimeField create_datetime = 8; // DateTime, Время и дата инсталла
     string create_env = 9; // String, Среда, в которой начата работа с приложением
     string create_web_publisher = 10; // String, Так и не поняли необходимости в этом
     string env = 12; // String, Среда, в которой работает игрок
