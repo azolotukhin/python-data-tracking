@@ -70,6 +70,12 @@ class Table:
         sql += f' {self.engine.create_table_sql()}'
         return sql
 
+    def drop_table_sql(self) -> str:
+        sql = f'DROP TABLE IF EXISTS {self.db_name}.{self.name}'
+        if self.cluster_name:
+            sql += f' ON CLUSTER {self.cluster_name}'
+        return sql
+
 
 class DistributedTable(Table):
     @property
