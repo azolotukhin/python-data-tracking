@@ -2,8 +2,8 @@ import click
 from google.protobuf.symbol_database import Default
 from analytics_schema import options_pb2
 from analytics_schema.game.track_event_pb2 import *
-from analytics_schema.game2.track_event_pb2 import *
-from analytics_schema.game.aggregations.install_pb2 import *
+# from analytics_schema.game2.track_event_pb2 import *
+# from analytics_schema.game.aggregations.install_pb2 import *
 from schema_migration.table import Table, DistributedTable
 
 

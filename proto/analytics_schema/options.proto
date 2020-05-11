@@ -24,6 +24,8 @@ message ReplicatedMergeTree {
     string ORDER_BY = 2;
     string PRIMARY_KEY = 3;
     string SAMPLE_BY = 4;
+    string zoo_path = 5;
+    string replica_name = 6;
 }
 
 
@@ -41,11 +43,6 @@ message TableMeta {
 
 extend google.protobuf.MessageOptions {
     TableMeta table_meta = 10001;
-}
-
-
-extend google.protobuf.FieldOptions {
-    TableMeta field_table_meta = 10001;
 }
 
 

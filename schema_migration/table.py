@@ -25,7 +25,12 @@ class Table:
         engine_name = self.table_meta.WhichOneof('ENGINE')
         engine_message = getattr(self.table_meta, engine_name)
         engine_cls = engine_mapping[engine_name]
-        engine = engine_cls(engine_message)
+        engine = engine_cls(
+            self.cluster_name,
+            self.db_name,
+            self.name,
+            engine_message
+        )
         return engine
 
     @property

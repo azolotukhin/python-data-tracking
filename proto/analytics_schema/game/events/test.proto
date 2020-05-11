@@ -10,6 +10,12 @@ message NestedMessage {
     string nested_field = 1;
 }
 
+enum TestEnum {
+    ZERO = 0;
+    ONE = 1;
+    TWO = 2;
+}
+
 
 message TestMessage {
     option (analytics_schema.table_meta) = {
@@ -28,5 +34,5 @@ message TestMessage {
 
     string test = 8;
     NestedMessage nested_message = 9;
-
+    TestEnum enum_test_field = 10;
 }
