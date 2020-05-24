@@ -10,9 +10,9 @@ from schema_migration.utils import convert_proto_type_to_click_house_type, Unkno
 
 class Table:
     def __init__(self, cluster_name: str, db_name: str, message_descriptor: Descriptor) -> None:
-        self.message_descriptor = message_descriptor
-        self.db_name = db_name
         self.cluster_name = cluster_name
+        self.db_name = db_name
+        self.message_descriptor = message_descriptor
         self.table_meta = message_descriptor.GetOptions().Extensions[options_pb2.table_meta]
 
     @property
@@ -74,6 +74,17 @@ class Table:
         sql = f'DROP TABLE IF EXISTS {self.db_name}.{self.name}'
         if self.cluster_name:
             sql += f' ON CLUSTER {self.cluster_name}'
+        return sql
+
+    def description_table_sql(self):
+        sql = f'DESC {self.db_name}.{self.name}'
+        return sql
+
+    def alter_table_sql(self):
+        sql = f'ALTER TABLE {self.db_name}.{self.name}'
+        if self.cluster_name:
+            sql += f' ON CLUSTER {self.cluster_name}'
+        sql += f'{{diff}}'
         return sql
 
 
