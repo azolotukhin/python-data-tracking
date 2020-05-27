@@ -29,15 +29,36 @@ message ReplicatedMergeTree {
 }
 
 
+message Kafka {
+    string kafka_broker_list = 1;
+    string kafka_topic_list = 2;
+    string kafka_group_name = 3;
+    string kafka_format = 4;
+    string kafka_row_delimiter = 5;
+    string kafka_schema = 6;
+    string kafka_num_consumers = 7;
+    string kafka_skip_broken_messages = 8;
+}
+
+
+message Distributed {
+    string table_name = 1;
+    string sharding_key = 2;
+}
+
+
 message TableMeta {
     string NAME = 1001;
+    string AS = 1002;
     oneof ENGINE  {
-        MergeTree MergeTree = 1002;
-        ReplicatedMergeTree ReplicatedMergeTree = 1003;
-        URL URL = 1004;
+        MergeTree MergeTree = 1003;
+        ReplicatedMergeTree ReplicatedMergeTree = 1004;
+        URL URL = 1005;
+        Kafka Kafka = 1006;
+        Distributed Distributed = 1007;
     }
 
-    bool DISABLE_DISTRIBUTED = 2005;
+    string kafka_topic = 2001;
 }
 
 
@@ -46,23 +67,14 @@ extend google.protobuf.MessageOptions {
 }
 
 
-message DateField {
-    uint32 year = 1;
-    uint32 month = 2;
-    uint32 day = 3;
+message FieldMeta {
+    string clickhouse_data_type = 1;
+    string DEFAULT = 2;
+    string MATERIALIZED = 3;
+    string ALIAS = 4;
 }
 
-message DateTimeField {
-    uint32 year = 1;
-    uint32 month = 2;
-    uint32 day = 3;
 
-    uint32 hour = 4;
-    uint32 minute = 5;
-    uint32 seconds = 6;
-}
-
-message UUID4Field {
-    string uuid4 = 1;
-
+extend google.protobuf.FieldOptions {
+    FieldMeta field_meta = 10001;
 }

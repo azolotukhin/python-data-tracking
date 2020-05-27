@@ -17,7 +17,11 @@ message InstallImport {
      string create_app_minor_version = 1004;
      string create_app_version = 1005;
      string create_country = 1006;
-     DateTimeField create_datetime = 1007; // datetime
+     string create_datetime = 1007 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "DateTime"
+        }
+    ]; // datetime
      string create_env = 1008;
      string create_env_web_publisher = 1009;
 

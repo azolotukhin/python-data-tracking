@@ -10,7 +10,11 @@ message Segments {
     string campaign = 4; // String, Рекламная кампания
     string country = 6; // String, Страна игрока на момент записи строки в таблицу
     string create_country = 7; // String, Страна игрока на момент инсталла
-    DateTimeField create_datetime = 8; // DateTime, Время и дата инсталла
+    string create_datetime = 8 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "DateTime"
+        }
+    ]; // DateTime, Время и дата инсталла
     string create_env = 9; // String, Среда, в которой начата работа с приложением
     string create_web_publisher = 10; // String, Так и не поняли необходимости в этом
     string env = 12; // String, Среда, в которой работает игрок

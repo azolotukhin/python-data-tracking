@@ -24,9 +24,21 @@ message TestMessage {
     option (analytics_schema.table_meta).ReplicatedMergeTree = {
     };
 
-    analytics_schema.UUID4Field uuid = 1; // unique event id
-    analytics_schema.DateField date = 2; // date of event, used for PARTITION_BY
-    analytics_schema.DateTimeField datetime = 3;  // datetime of event
+    string uuid = 1 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "UUID"
+        }
+    ]; // unique event id
+    string date = 2 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "Date"
+        }
+    ]; // date of event, used for PARTITION_BY
+    string datetime = 3 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "DateTime"
+        }
+    ];  // datetime of event
     string player_id = 4; // player id (primary key)
     string client_ip = 5; // client remote api
     string source_type = 6; // source of event (prod, dev)
@@ -36,3 +48,40 @@ message TestMessage {
     NestedMessage nested_message = 9;
     TestEnum enum_test_field = 10;
 }
+
+
+message TestKafkaMessage {
+    option (analytics_schema.table_meta) = {
+        NAME: "TestKafka"
+        AS: "Test"
+    };
+    option (analytics_schema.table_meta).Kafka = {
+        kafka_broker_list: "localhost:9090"
+        kafka_topic_list: "test_topic"
+        kafka_group_name: "test_group"
+        kafka_format: "JSONEachRow"
+    };
+}
+
+
+message TestDistributedMessage {
+    option (analytics_schema.table_meta) = {
+        NAME: "d_Test"
+        AS: "Test"
+    };
+    option (analytics_schema.table_meta).Distributed = {
+        table_name: "Test"
+        sharding_key: "sipHash64(player_id)"
+    };
+}
+
+//message TestMaterializedViewMessage {
+//    option (analytics_schema.table_meta) = {
+//        NAME: "test_consumer"
+//        AS_SELECT: "Test"
+//    };
+//    option (analytics_schema.table_meta).Distributed = {
+//        table_name: "Test"
+//        sharding_key: "sipHash64(player_id)"
+//    };
+//}

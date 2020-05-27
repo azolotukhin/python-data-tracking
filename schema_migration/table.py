@@ -4,6 +4,7 @@ from google.protobuf.descriptor import Descriptor
 
 from analytics_schema import options_pb2
 from schema_migration.clickhouse_engines import Distributed, MergeTree, ReplicatedMergeTree
+from schema_migration.clickhouse_engines.kafka import Kafka
 from schema_migration.clickhouse_engines.url import URL
 from schema_migration.utils import convert_proto_type_to_click_house_type, UnknownMessageError
 
@@ -20,7 +21,9 @@ class Table:
         engine_mapping = {
             'MergeTree': MergeTree,
             'ReplicatedMergeTree': ReplicatedMergeTree,
-            'URL': URL
+            'URL': URL,
+            'Kafka': Kafka,
+            'Distributed': Distributed
         }
         engine_name = self.table_meta.WhichOneof('ENGINE')
         engine_message = getattr(self.table_meta, engine_name)
@@ -36,6 +39,10 @@ class Table:
     @property
     def name(self) -> str:
         return self.table_meta.NAME or self.message_descriptor.name
+
+    @property
+    def as_table(self) -> str:
+        return self.table_meta.AS
 
     def _get_fields_by_name_from_message_descriptor(self,
                                                     message_descriptor,
@@ -65,8 +72,11 @@ class Table:
         sql = f'CREATE TABLE IF NOT EXISTS {self.db_name}.{self.name}'
         if self.cluster_name:
             sql += f' ON CLUSTER {self.cluster_name}'
-        joined_fields = ',\n\t'.join(self.fields_by_name)
-        sql += f' ({joined_fields})'
+        if self.as_table:
+            sql += f' as {self.as_table}'
+        else:
+            joined_fields = ',\n\t'.join(self.fields_by_name)
+            sql += f' ({joined_fields})'
         sql += f' {self.engine.create_table_sql()}'
         return sql
 
@@ -85,20 +95,4 @@ class Table:
         if self.cluster_name:
             sql += f' ON CLUSTER {self.cluster_name}'
         sql += f'{{diff}}'
-        return sql
-
-
-class DistributedTable(Table):
-    @property
-    def engine(self) -> Distributed:
-        engine = Distributed(
-            self.cluster_name,
-            self.db_name,
-            self.name
-        )
-        return engine
-
-    def create_table_sql(self) -> str:
-        engine_sql = self.engine.create_table_sql()
-        sql = f'CREATE TABLE IF NOT EXISTS {self.db_name}.d_{self.name} {engine_sql}'
         return sql

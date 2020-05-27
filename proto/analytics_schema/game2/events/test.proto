@@ -18,9 +18,21 @@ message TestMessage2 {
     option (analytics_schema.table_meta).ReplicatedMergeTree = {
     };
 
-    analytics_schema.UUID4Field uuid = 1; // unique event id
-    analytics_schema.DateField date = 2; // date of event, used for PARTITION_BY
-    analytics_schema.DateTimeField datetime = 3;  // datetime of event
+    string uuid = 1 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "UUID"
+        }
+    ]; // unique event id
+    string date = 2 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "Date"
+        }
+    ]; // date of event, used for PARTITION_BY
+    string datetime = 3 [
+        (analytics_schema.field_meta) = {
+            clickhouse_data_type: "DateTime"
+        }
+    ];  // datetime of event
     string player_id = 4; // player id (primary key)
     string client_ip = 5; // client remote api
     string source_type = 6; // source of event (prod, dev)

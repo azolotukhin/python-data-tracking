@@ -4,7 +4,7 @@ from analytics_schema import options_pb2
 from analytics_schema.game.track_event_pb2 import *
 # from analytics_schema.game2.track_event_pb2 import *
 # from analytics_schema.game.aggregations.install_pb2 import *
-from schema_migration.table import Table, DistributedTable
+from schema_migration.table import Table
 
 
 @click.group()
@@ -19,9 +19,6 @@ def create_tables():
         if message_type.GetOptions().Extensions[options_pb2.table_meta].WhichOneof('ENGINE'):
             table = Table('anal', 'ww2', message_type)
             print(table.create_table_sql())
-            if not message_type.GetOptions().Extensions[options_pb2.table_meta].DISABLE_DISTRIBUTED:
-                distributed_table = DistributedTable('anal', 'ww2', message_type)
-                print(distributed_table.create_table_sql())
     return
 
     # tables = {}
