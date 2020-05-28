@@ -62,8 +62,24 @@ message TableMeta {
 }
 
 
+message ViewMeta {
+    string NAME = 1001;
+    bool MATERIALIZED = 1002;
+    string AS_SELECT = 1003;
+    string TO = 1004;
+}
+
+
+message MessageMeta {
+    oneof Meta {
+        TableMeta table_meta = 10001;
+        ViewMeta view_meta = 10002;
+    }
+}
+
+
 extend google.protobuf.MessageOptions {
-    TableMeta table_meta = 10001;
+    MessageMeta message_meta = 10001;
 }
 
 

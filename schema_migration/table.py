@@ -14,7 +14,7 @@ class Table:
         self.cluster_name = cluster_name
         self.db_name = db_name
         self.message_descriptor = message_descriptor
-        self.table_meta = message_descriptor.GetOptions().Extensions[options_pb2.table_meta]
+        self.table_meta = message_descriptor.GetOptions().Extensions[options_pb2.message_meta].table_meta
 
     @property
     def engine(self):

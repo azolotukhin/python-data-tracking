@@ -18,10 +18,11 @@ enum TestEnum {
 
 
 message TestMessage {
-    option (analytics_schema.table_meta) = {
+    option (analytics_schema.message_meta).table_meta = {
         NAME: "Test"
     };
-    option (analytics_schema.table_meta).ReplicatedMergeTree = {
+    option (analytics_schema.message_meta).table_meta.ReplicatedMergeTree = {
+        ORDER_BY: "date, player_id, sipHash64(player_id)"
     };
 
     string uuid = 1 [
@@ -51,11 +52,11 @@ message TestMessage {
 
 
 message TestKafkaMessage {
-    option (analytics_schema.table_meta) = {
+    option (analytics_schema.message_meta).table_meta = {
         NAME: "TestKafka"
         AS: "Test"
     };
-    option (analytics_schema.table_meta).Kafka = {
+    option (analytics_schema.message_meta).table_meta.Kafka = {
         kafka_broker_list: "localhost:9090"
         kafka_topic_list: "test_topic"
         kafka_group_name: "test_group"
@@ -65,23 +66,21 @@ message TestKafkaMessage {
 
 
 message TestDistributedMessage {
-    option (analytics_schema.table_meta) = {
+    option (analytics_schema.message_meta).table_meta = {
         NAME: "d_Test"
         AS: "Test"
     };
-    option (analytics_schema.table_meta).Distributed = {
+    option (analytics_schema.message_meta).table_meta.Distributed = {
         table_name: "Test"
         sharding_key: "sipHash64(player_id)"
     };
 }
 
-//message TestMaterializedViewMessage {
-//    option (analytics_schema.table_meta) = {
-//        NAME: "test_consumer"
-//        AS_SELECT: "Test"
-//    };
-//    option (analytics_schema.table_meta).Distributed = {
-//        table_name: "Test"
-//        sharding_key: "sipHash64(player_id)"
-//    };
-//}
+message TestMaterializedViewMessage {
+    option (analytics_schema.message_meta).view_meta = {
+        NAME: "test_consumer"
+        MATERIALIZED: true
+        TO: "Test"
+        AS_SELECT: "* FROM TestKafka"
+    };
+}

@@ -12,10 +12,10 @@ message NestedMessage {
 
 
 message TestMessage2 {
-    option (analytics_schema.table_meta) = {
+    option (analytics_schema.message_meta).table_meta = {
         NAME: "Test"
     };
-    option (analytics_schema.table_meta).ReplicatedMergeTree = {
+    option (analytics_schema.message_meta).table_meta.ReplicatedMergeTree = {
     };
 
     string uuid = 1 [

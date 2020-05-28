@@ -5,6 +5,7 @@ from analytics_schema.game.track_event_pb2 import *
 # from analytics_schema.game2.track_event_pb2 import *
 # from analytics_schema.game.aggregations.install_pb2 import *
 from schema_migration.table import Table
+from schema_migration.view import View
 
 
 @click.group()
@@ -16,9 +17,15 @@ def cli():
 def create_tables():
     sym_db = Default()
     for message_type in sym_db._classes:
-        if message_type.GetOptions().Extensions[options_pb2.table_meta].WhichOneof('ENGINE'):
-            table = Table('anal', 'ww2', message_type)
-            print(table.create_table_sql())
+        message_meta = message_type.GetOptions().Extensions[options_pb2.message_meta]
+        meta_object = message_meta.WhichOneof('Meta')
+        if meta_object == 'table_meta':
+            if message_meta.table_meta.WhichOneof('ENGINE'):
+                table = Table('office', 'bfg', message_type)
+                print(table.create_table_sql())
+        elif meta_object == 'view_meta':
+            table = View('office', 'bfg', message_type)
+            print(table.create_view_sql())
     return
 
     # tables = {}

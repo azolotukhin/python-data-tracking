@@ -5,10 +5,10 @@ package analytics_schema.game.aggregations.install;
 import "analytics_schema/options.proto";
 
 message InstallImport {
-     option (analytics_schema.table_meta) = {
+     option (analytics_schema.message_meta).table_meta = {
         NAME: "Installs"
     };
-    option (analytics_schema.table_meta).ReplicatedMergeTree = {
+    option (analytics_schema.message_meta).table_meta.ReplicatedMergeTree = {
     };
 
      string advertising_id = 1002;
