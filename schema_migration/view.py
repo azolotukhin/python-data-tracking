@@ -1,12 +1,6 @@
-from typing import Optional, List
-
 from google.protobuf.descriptor import Descriptor
 
 from analytics_schema import options_pb2
-from schema_migration.clickhouse_engines import Distributed, MergeTree, ReplicatedMergeTree
-from schema_migration.clickhouse_engines.kafka import Kafka
-from schema_migration.clickhouse_engines.url import URL
-from schema_migration.utils import convert_proto_type_to_click_house_type, UnknownMessageError
 
 
 class View:
