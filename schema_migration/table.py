@@ -73,7 +73,7 @@ class Table:
         if self.cluster_name:
             sql += f' ON CLUSTER {self.cluster_name}'
         if self.as_table:
-            sql += f' as {self.as_table}'
+            sql += f' as {self.db_name}.{self.as_table}'
         else:
             joined_fields = ',\n\t'.join(self.fields_by_name)
             sql += f' ({joined_fields})'
