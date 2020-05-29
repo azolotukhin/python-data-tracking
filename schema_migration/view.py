@@ -37,5 +37,5 @@ class View:
         sql = f'CREATE {materialized} VIEW IF NOT EXISTS {self.db_name}.{self.name}'
         if self.cluster_name:
             sql += f' ON CLUSTER {self.cluster_name}'
-        sql += f' TO {self.to} AS SELECT {self.as_select}'
+        sql += f' TO {self.db_name}.{self.to} AS SELECT {self.db_name}.{self.as_select}'
         return sql
