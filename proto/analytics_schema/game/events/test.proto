@@ -81,6 +81,6 @@ message TestMaterializedViewMessage {
         NAME: "test_consumer"
         MATERIALIZED: true
         TO: "Test"
-        AS_SELECT: "* FROM TestKafka"
+        AS_SELECT: "* FROM bfg.TestKafka"
     };
 }
